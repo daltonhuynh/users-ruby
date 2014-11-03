@@ -37,8 +37,7 @@ module Users
         req.url USERS_PATH
         req.body = {
           :email                 => email,
-          :password              => password,
-          :password_confirmation => password
+          :password              => password
         }.merge(opts).to_json
       end
     end
