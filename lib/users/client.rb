@@ -76,14 +76,14 @@ module Users
       end
     end
 
-    def activate_user(user_id, token)
+    def activate_user(session_key, token)
       client.put do |req|
         req.url "#{ME_PATH}/activate?token=#{token}"
         req.headers[SESSION_KEY_HEADER] = session_key
       end
     end
 
-    def resend_activation_email(session_key, user_id)
+    def resend_activation_email(session_key)
       client.post do |req|
         req.url "#{ME_PATH}/resend_activation"
         req.headers[SESSION_KEY_HEADER] = session_key
