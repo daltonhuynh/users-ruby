@@ -76,6 +76,34 @@ module Users
       end
     end
 
+    def activate_user(user_id, token)
+      client.put do |req|
+        req.url "#{ME_PATH}/activate?token=#{token}"
+        req.headers[SESSION_KEY_HEADER] = session_key
+      end
+    end
+
+    def resend_activation_email(session_key, user_id)
+      client.post do |req|
+        req.url "#{ME_PATH}/resend_activation"
+        req.headers[SESSION_KEY_HEADER] = session_key
+      end
+    end
+
+    def request_password_reset(email)
+      client.post "#{USERS_PATH}/password_resets"
+    end
+
+    def update_password(token, password, password_confirmation)
+      client.put do |req|
+        req.url "#{USERS_PATH}/password_resets/#{token}"
+        req.body = {
+          :password => password,
+          :password_confirmation => password_confirmation
+        }.to_json
+      end
+    end
+
     private
 
       def client
