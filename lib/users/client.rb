@@ -28,6 +28,14 @@ module Users
       end
     end
 
+    def update_me(session_key, opts = {})
+      client.put do |req|
+        req.url ME_PATH
+        req.headers[SESSION_KEY_HEADER] = session_key
+        req.body = opts.to_json
+      end
+    end
+
     def get_user(user_id)
       client.get "#{USERS_PATH}/#{user_id}"
     end
